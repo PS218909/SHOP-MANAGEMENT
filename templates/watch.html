@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>{{name}}</title>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    {%for i in para%}
+        <p class="m-5">{{i.text}}</p>
+    {%endfor%}
+    {% if name.startswith("B") %}
+    <table class="table table-hover">
+        <tr><th>Sl No</th><th>Particular</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
+        {%for i in rows%}
+        <tr>
+            {%for j in i.cells%}
+                <td>{{j.text}}</td>
+            {%endfor%}
+        </tr>
+        {%endfor%}
+    </table>
+    {% endif %}
+</body>
+</html>
