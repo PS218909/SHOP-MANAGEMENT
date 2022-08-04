@@ -1,0 +1,6 @@
+docx==0.2.4
+Flask==2.0.2
+MarkupSafe==2.0.1
+num2words==0.5.10
+python_docx==0.8.11
+gunicorn

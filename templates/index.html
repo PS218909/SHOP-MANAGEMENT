@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>SHOP MANAGEMENT SYSTEM</title>
+    <style>
+        .m-3 {
+            margin: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/inventory">Inventory</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/files">Files</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/bill">New Bill</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/receipt">New Receipt</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/logout">Log Out</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/adduser">Add User</a></div>
+    <div class="row text-center m-3"><a class="col-sm-12 btn btn-success" href="/config">Change Company Name</a></div>
+</body>
+</html>

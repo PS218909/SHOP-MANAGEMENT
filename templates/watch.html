@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>{{name}}</title>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    {%for i in para%}
+        <p class="m-5">{{i.text}}</p>
+    {%endfor%}
+    {% if name.startswith("B") %}
+    <table class="table table-hover">
+        <tr><th>Sl No</th><th>Particular</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
+        {%for i in rows%}
+        <tr>
+            {%for j in i.cells%}
+                <td>{{j.text}}</td>
+            {%endfor%}
+        </tr>
+        {%endfor%}
+    </table>
+    {% endif %}
+    {% if name[0]=='B' %}
+        <a class="form-control btn btn-success" href="/bill/edit/{{name}}">Edit</a>
+    {% endif %}
+    <footer class="footer">
+        <button class="form-control btn-danger" data-toggle="modal" data-target="#_modal">Delete</button>
+        <div class="modal fade" id="_modal" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close" data-dismiss="modal">&times;</span>
+                        <h4 class="modal-title">Delete {{name}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure to delete ?</h4>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="_name" value="{{name}}">
+                            <button class="btn-success">Yes</button>
+                        </form>
+                        <button class="btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BILLING</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    <div id="billNo">Bill No: - {{bNo}}</div>
+    <p contenteditable>{{_name}}</p>
+    <p contenteditable>ADDRESS</p>
+    <div class="form-group row hide-while-print">
+        <div class="col-sm-4">
+            <input name="name" placeholder="Particular" class="form-control" list="particulars" autocomplete="off" />
+            <datalist id="particulars">
+                {% for val in LIST %}
+                    {% if val[1]>0 %}
+                        <option value="{{val[0]}}" label="{{val[0]}}:{{val[2]}}">{{val[0]}}:{{val[2]}}:{{val[1]}}</option>
+                    {% endif %}
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="col-sm-4">
+            <input type="number" placeholder="Quantity" name="Quantity" step="0.025" class="form-control" autocomplete="off" />
+        </div>
+        <div class="col-sm-4">
+            <input type="number" placeholder="Price" name="Price" step="0.025" class="form-control" autocomplete="off" />
+        </div>
+    </div>
+    <div class="row hide-while-print">
+        <button name="submit" class="col-sm-12 btn btn-success">SUBMIT</button>
+    </div>
+    <br />
+    <br />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Sl No.</th>
+                <th>Particulars</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="row hide-while-print">
+        <button class="col-sm-12 btn btn-danger">TOTAL</button>
+    </div>
+    <script src="{{url_for('static', filename='index.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+        {% for i in l %}
+        document.getElementsByTagName("input")[0].value = "{{i[1]}}";
+        document.getElementsByTagName("input")[1].value = "{{i[2]}}";
+        document.getElementsByTagName("input")[2].value = "{{i[3]}}";
+        $("button").first().trigger("click");
+        {% endfor %}
+        })
+    </script>
+</body>
+
+</html>

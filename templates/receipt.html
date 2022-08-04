@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>RECEIPT</title>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    <form action="/submitReceipt" method="POST" autocomplete="off">
+        <input type="hidden" name="receiptNo" value="{{receiptNo}}">
+        <div class="form-group">
+            <label for="name">Name: </label>
+            <input class="form-control" name="name" id="name" required placeholder="Name: ">
+        </div>
+        <div class="form-group">
+            <label for="address">Address: </label>
+            <input class="form-control" name="address" id="address" placeholder="Address: ">
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount: </label>
+            <input class="form-control" name="amount" step="0.025" id="amount" required placeholder="Amount: ">
+        </div>
+        <div class="m-5">
+            <button class="btn btn-success col-sm-12">SUBMIT</button>
+        </div>
+    </form>
+</body>
+</html>

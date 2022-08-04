@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'style.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Files</title>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    <a href="/logout" class="btn btn-success w-100 m-5">Logout</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.startswith('Deleted ') %}
+                    <div class="alert alert-success">
+                        <span>{{ message }}</span>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">
+                        <span>{{ message }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/files" method="POST">
+        <div class="row container m-5">
+            <label class="col-sm-3">Search: </label><input name="search" class="col-sm-6" placeholder="search" autocomplete="off"/>
+            <button class="col-sm-3">SUBMIT</button>
+        </div>
+    </form>
+    <table class="table table-hover">
+        <tr><th>Name</th><th>Total Amount</th><th>File Size</th></tr>
+        {% for fname in files %}
+            {% if fname[0].startswith("B")%}
+                <tr class="bg-danger"><td><a href="/files/{{fname[0]}}" class="btn text-center btn-link link-danger">{{fname[0]}}</a></td><td>{{fname[2]}}</td><td><a href="/files/{{fname[0]}}/download"><i class="fas fa-download"></i> {{fname[1]}} MB</a></td></tr>
+            {% else %}
+                <tr class="bg-success"><td><a href="/files/{{fname[0]}}" class="btn text-center btn-link link-danger">{{fname[0]}}</a></td><td>{{fname[2]}}</td><td><a href="/files/{{fname[0]}}/download"><i class="fas fa-download"></i> {{fname[1]}} MB</a></tr>
+            {% endif%}
+        {% endfor %}
+    </table>
+</body>
+</html>

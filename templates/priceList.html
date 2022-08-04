@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Price List</title>
+</head>
+<body>
+    <header>
+        <div class="text-center container bg-primary">
+            <a href="/home">
+                <h1>
+                    {{SNAME}}<br />
+                    {{SADDRESS}}
+                </h1>
+            </a>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message == "Added Successlully" or message == "Removed Successfully" %}
+                    <div class="alert alert-success">
+                        <span>{{ message }}</span>
+                    </div>
+                {% elif message == "Failed. Please Try Again Later." %}
+                    <div class="alert alert-warning">
+                        <span>{{ message }}</span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <button class="btn btn-success w-100" data-toggle="modal" data-target="#myModal">Add Product</button>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" data-dismiss="modal">&times;</span>
+                    <h4 class="modal-title">Add Product</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/inventory" method="POST">
+                        <input type="text" name="product" class="form-control m-5" required autocomplete="off" placeholder="Particular">
+                        <input type="number" name="quantity" step="0.025" class="form-control m-5" required autocomplete="off" placeholder="Quantity">
+                        <input type="number" name="price" step="0.025" class="form-control m-5" required autocomplete="off" placeholder="Price">
+                        <div class="modal-footer">
+                            <button class="btn btn-success col-sm-12">SUBMIT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <tr><th>Particulars</th><th>Quantity</th><th>Price</th><th>Action</th></tr>
+        {% for i in LIST %}
+        <tr class="{{'bg-success' if (i[1]>0) else 'bg-danger'}}">
+            <td>{{i[0]}}</td>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>
+                <div class="row">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#E{{i[3]}}">EDIT</button>
+                    <form action="/deleterow" method="POST">
+                        <input name="index" type="hidden" value="{{i[3]}}">
+                        <button class="btn btn-danger">DELETE</button>
+                    </form>
+                </div>
+                <div class="modal fade" id="E{{i[3]}}" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="close" data-dismiss="modal">&times;</span>
+                                <h4 class="modal-title">Edit {{i[0]}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/inventory" method="POST">
+                                    <input type="hidden" name="index" value="{{i[3]}}">
+                                    <input type="text" name="product" class="form-control m-5" required autocomplete="off" value="{{i[0]}}">
+                                    <input type="number" name="quantity" step="0.025" class="form-control m-5" required autocomplete="off" value="{{i[1]}}">
+                                    <input type="number" name="price" step="0.025" class="form-control m-5" required autocomplete="off" value="{{i[2]}}">
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success form-control">SUBMIT</button><br />
+                                        <button class="btn btn-danger form-control" data-dismiss="modal">CANCEL</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        $(document).on('keydown', function ( e ) {
+            if ((e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which).toLowerCase() === 'a') ) {
+                e.preventDefault();
+		        $("#myModal").modal('show');
+            } else if (e.keyCode == 9 || e.keyCode == 13) {
+                e.preventDefault();
+                var n = document.activeElement;
+                if (n.tagName == "INPUT") {
+                    if (n.getAttribute('name') == "product") {
+                        document.activeElement.nextElementSibling.focus();
+                    } else if (n.getAttribute('name') == "quantity") {
+                        document.activeElement.nextElementSibling.focus();
+                    } else if (n.getAttribute('name') == "price") {
+                        document.activeElement.nextElementSibling.firstChild.nextElementSibling.click();
+                    } 
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
